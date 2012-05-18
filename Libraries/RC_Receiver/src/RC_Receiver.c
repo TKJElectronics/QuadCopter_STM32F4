@@ -1,13 +1,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
-#include "RC_Reveiver.h"
+#include "RC_Receiver.h"
 
 uint16_t Throttle, Aileron, Elevation, Rudder;
-uint32_t IC3ReadValues;
+uint32_t IC3ReadValues[10];
+uint8_t CaptureNumber1;
 
 int RC_Init(void)
 {
-	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_ICInitTypeDef  TIM_ICInitStructure;
 	uint16_t PrescalerValue = 0;
 	  /*!< At this stage the microcontroller clock setting is already configured,
@@ -102,7 +102,7 @@ void TIM4_IRQHandler(void)
     /* Clear TIM1 Capture compare interrupt pending bit */
     TIM_ClearITPendingBit(TIM4, TIM_IT_CC1);
     if (TIM_GetCapture1(TIM4) > 20000) {
-    	CaptureNumber = 0;
+    	CaptureNumber1 = 0;
     	TIM_SetCounter(TIM4, 0);
 
     	// Check is package is valid
@@ -113,9 +113,9 @@ void TIM4_IRQHandler(void)
     		Rudder = ((u32)IC3ReadValues[6]*1000000) / 2000000; // in microseconds
     	}
     } else {
-    	IC3ReadValues[CaptureNumber] = TIM_GetCapture1(TIM4); // Output in micro seconds
+    	IC3ReadValues[CaptureNumber1] = TIM_GetCapture1(TIM4); // Output in micro seconds
     	TIM_SetCounter(TIM4, 0);
-    	CaptureNumber++;
+    	CaptureNumber1++;
     }
   }
 }

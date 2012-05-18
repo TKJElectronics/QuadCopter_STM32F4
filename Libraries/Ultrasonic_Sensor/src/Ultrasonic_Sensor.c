@@ -2,11 +2,13 @@
 #include "stm32f4xx.h"
 #include "Ultrasonic_Sensor.h"
 
-uint32_t IC1ReadValues, Capture;
+uint32_t IC1ReadValues[8];
+uint32_t Capture;
+uint8_t StateBefore;
+uint8_t CaptureNumber2;
 
 int Ultrasonic_Init(void)
 {
-	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_ICInitTypeDef  TIM_ICInitStructure;
 	uint16_t PrescalerValue = 0;
 	  /*!< At this stage the microcontroller clock setting is already configured,
@@ -143,9 +145,9 @@ void TIM1_CC_IRQHandler(void)
 	    	StateBefore = (uint8_t)Bit_RESET; // State has now changed to RESET
 
 	        if (Capture > 200) {
-	        	IC1ReadValues[CaptureNumber] = (Capture/4) * 0.034f; // Divide with 2 because of counter freq (2MHz), divide with 2 more because of double length (reflection) -> then from microseconds to cm
-	        	CaptureNumber++;
-	        	if (CaptureNumber == 8) CaptureNumber = 0;
+	        	IC1ReadValues[CaptureNumber2] = (Capture/4) * 0.034f; // Divide with 2 because of counter freq (2MHz), divide with 2 more because of double length (reflection) -> then from microseconds to cm
+	        	CaptureNumber2++;
+	        	if (CaptureNumber2 == 8) CaptureNumber2 = 0;
 	        }
 	    }
 	  }

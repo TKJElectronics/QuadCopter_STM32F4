@@ -75,6 +75,7 @@ extern float IMU_Yaw, IMU_Yaw_Final;
 extern float IMU_Pitch, IMU_Pitch_Final;
 extern float IMU_Roll, IMU_Roll_Final;
 extern float MAG_Heading;
+extern float Accel_Vector[3];
 extern float Omega_Vector[3]; // Corrected Gyro_Vector data - can be used in PID
 extern float Gyro_Vector[3];
 
