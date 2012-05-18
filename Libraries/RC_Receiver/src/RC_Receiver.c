@@ -3,6 +3,7 @@
 #include "RC_Reveiver.h"
 
 uint16_t Throttle, Aileron, Elevation, Rudder;
+uint32_t IC3ReadValues;
 
 int RC_Init(void)
 {

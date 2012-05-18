@@ -2,6 +2,7 @@
 #include "stm32f4xx.h"
 #include "Ultrasonic_Sensor.h"
 
+uint32_t IC1ReadValues, Capture;
 
 int Ultrasonic_Init(void)
 {
@@ -142,7 +143,7 @@ void TIM1_CC_IRQHandler(void)
 	    	StateBefore = (uint8_t)Bit_RESET; // State has now changed to RESET
 
 	        if (Capture > 200) {
-	        	IC3ReadValues[CaptureNumber] = (Capture/4) * 0.034f; // Divide with 2 because of counter freq (2MHz), divide with 2 more because of double length (reflection) -> then from microseconds to cm
+	        	IC1ReadValues[CaptureNumber] = (Capture/4) * 0.034f; // Divide with 2 because of counter freq (2MHz), divide with 2 more because of double length (reflection) -> then from microseconds to cm
 	        	CaptureNumber++;
 	        	if (CaptureNumber == 8) CaptureNumber = 0;
 	        }
