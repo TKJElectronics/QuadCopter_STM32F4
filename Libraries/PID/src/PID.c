@@ -73,7 +73,7 @@ void PID_Roll(float Set, float Current)
     PID_RollVar.Error_Current = Set - Current;
 
     PID_RollVar.Proportional = PID_RollVar.Kp * PID_RollVar.Error_Current;
-    PID_RollVar.Integral += PID_RollVar.Ki * PID_RollVar.Error_Current;
+    PID_RollVar.Integral += PID_RollVar.Ki * PID_RollVar.Error_Current * PID_RollVar.Dt;
     PID_RollVar.Derivative = PID_RollVar.Kd * ((PID_RollVar.Error_Current - PID_RollVar.Error_Before) / PID_RollVar.Dt);
 
     PID_RollVar.Control = PID_RollVar.Proportional + PID_RollVar.Integral + PID_RollVar.Derivative;
@@ -94,7 +94,7 @@ void PID_Pitch(float Set, float Current)
     //PID_PitchVar.Error_Current = low_pass_filter(Set - Current, PID_PitchVar.Error_Before, 25.0); // Try this filtered value
 
     PID_PitchVar.Proportional = PID_PitchVar.Kp * PID_PitchVar.Error_Current;
-    PID_PitchVar.Integral += PID_PitchVar.Ki * PID_PitchVar.Error_Current;
+    PID_PitchVar.Integral += PID_PitchVar.Ki * PID_PitchVar.Error_Current * PID_PitchVar.Dt;
 
     /*if (PID_PitchVar.Dt > 0)
     {
